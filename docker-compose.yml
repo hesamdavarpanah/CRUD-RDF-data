@@ -1,0 +1,48 @@
+version: "3.8"
+services:
+
+  rabbit:
+    image: "rabbitmq:3-management-alpine"
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      test_network:
+        ipv4_address: 172.16.238.11
+
+  gateway:
+    build:
+      context: gateway
+    ports:
+      - "8000:8000"
+    environment:
+      - RABBIT_PORT=5672
+      - RABBIT_HOST=172.16.238.11
+      - RABBIT_USER=guest
+      - RABBIT_PASSWORD=guest
+    networks:
+      test_network:
+        ipv4_address: 172.16.238.12
+
+  rdf-builder:
+    build:
+      context: rdf_builder
+    environment:
+      - RABBIT_PORT=5672
+      - RABBIT_HOST=172.16.238.11
+      - RABBIT_USER=guest
+      - RABBIT_PASSWORD=guest
+    volumes:
+      - ./rdf_builder/resources:/code/rdf_builder/resources
+    networks:
+      test_network:
+        ipv4_address: 172.16.238.13
+
+
+networks:
+  test_network:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.16.238.0/24
