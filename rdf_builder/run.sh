@@ -5,6 +5,14 @@ until nc -z ${RABBIT_HOST} ${RABBIT_PORT}; do
     sleep 1
 done
 
-cd ./rdf_builder/rdf_builder
+echo "$(date) - Rabbit is up and running."
 
-nameko run --config /code/rdf_builder/rdf_builder/config.yml service
+until nc -z ${MONGODB_HOST} ${MONGODB_PORT}; do
+    echo "$(date) - waiting for mongodb..."
+    sleep 1
+done
+
+echo "$(date) - MongoDB is up and running."
+
+
+nameko run --config config.yml rdf_builder.service

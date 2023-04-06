@@ -1,8 +1,8 @@
 version: "3.8"
 services:
-
   rabbit:
     image: "rabbitmq:3-management-alpine"
+    container_name: "rabbitmq-container"
     ports:
       - "5672:5672"
       - "15672:15672"
@@ -10,34 +10,47 @@ services:
       test_network:
         ipv4_address: 172.16.238.11
 
-  gateway:
-    build:
-      context: gateway
+  mongodb:
+    image: "mongo"
+    container_name: "mongodb-container"
     ports:
-      - "8000:8000"
-    environment:
-      - RABBIT_PORT=5672
-      - RABBIT_HOST=172.16.238.11
-      - RABBIT_USER=guest
-      - RABBIT_PASSWORD=guest
+      - "27017:27017"
     networks:
       test_network:
         ipv4_address: 172.16.238.12
 
-  rdf-builder:
+  gateway:
+    container_name: "gateway"
     build:
-      context: rdf_builder
-    environment:
-      - RABBIT_PORT=5672
-      - RABBIT_HOST=172.16.238.11
-      - RABBIT_USER=guest
-      - RABBIT_PASSWORD=guest
-    volumes:
-      - ./rdf_builder/resources:/code/rdf_builder/resources
+      context: gateway
+    ports:
+      - "8000:8000"
     networks:
       test_network:
         ipv4_address: 172.16.238.13
 
+  rdf-builder:
+    container_name: "rdf-builder"
+    build:
+      context: rdf_builder
+    environment:
+      - RABBIT_PORT= 5672
+      - RABBIT_SCHEMA= amqp
+      - RABBIT_HOST= 172.16.238.11
+      - RABBIT_USER= guest
+      - RABBIT_PASSWORD= guest
+      - MONGODB_DB_NAME= logs
+      - MONGODB_COLLECTION_NAME= logs_collection
+      - MONGODB_SCHEMA= mongodb
+      - MONGODB_HOST= 172.16.238.12
+      - MONGODB_PORT= 27017
+      - MONGODB_USERNAME= system
+      - MONGODB_PASSWORD= system
+    volumes:
+      - ./rdf_builder/resources:/code/rdf_builder/resources
+    networks:
+      test_network:
+        ipv4_address: 172.16.238.14
 
 networks:
   test_network:

@@ -4,6 +4,7 @@ from pydantic import BaseSettings
 
 
 class Settings(BaseSettings):
+    rabbit_schema: str = "amqp"
     rabbit_user: str = "guest"
     rabbit_password: str = "guest"
     rabbit_host: str = "172.16.238.11"
@@ -11,7 +12,7 @@ class Settings(BaseSettings):
 
     @property
     def amqp_uri(self):
-        return f"amqp://{self.rabbit_user}:{self.rabbit_password}@{self.rabbit_host}:{self.rabbit_port}/"
+        return f"{self.rabbit_schema}://{self.rabbit_user}:{self.rabbit_password}@{self.rabbit_host}:{self.rabbit_port}/"
 
     @property
     def cluster_rpc_proxy_config(self):

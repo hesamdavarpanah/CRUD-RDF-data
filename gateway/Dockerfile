@@ -10,10 +10,10 @@ COPY  requirements.txt .
 
 RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 
-COPY . /code/gateway
+COPY . /code
 
-RUN chmod +x ./gateway/run.sh
+RUN chmod +x ./run.sh
 
 RUN chmod -R 777 ./
 
-CMD ["./gateway/run.sh"]
+CMD ["./run.sh"]

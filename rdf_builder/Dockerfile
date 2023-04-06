@@ -10,10 +10,14 @@ COPY  requirements.txt .
 
 RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 
-COPY . /code/rdf_builder
+COPY . /code
 
-RUN chmod +x ./rdf_builder/run.sh
+COPY ./rdf_builder/config.yml ./
+
+COPY run.sh ./
+
+RUN chmod +x ./run.sh
 
 RUN chmod -R 777 ./
 
-CMD ["./rdf_builder/run.sh"]
+CMD ["./run.sh"]
