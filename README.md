@@ -29,9 +29,11 @@ RDF is a standard for representing and exchanging data on the web. This applicat
 ## Setup Instructions
 1. Clone this repository to your local machine using `git clone https://github.com/hesamdavarpanah/CRUD-RDF-data.git`
 2. Make sure you have Python installed.
-3. Use the project by running ```console
-docker compose up
-``` in your terminal
+3. Run the Project with this command on your terminal:
+```console
+root@user:~$ docker compose up
+running...
+```
 
 ## Usage
 1. Upon running the application, you will be presented with a user-friendly interface where you can perform CRUD operations on RDF data.
