@@ -1,6 +1,7 @@
 # CRUD-RDF-data
 
 This repository contains a simple CRUD (Create, Read, Update, Delete) application for managing RDF (Resource Description Framework) data. 
+![This graph show how RDF file will create](Untitled-1.png "RDF builder graph")
 
 ## Table of Contents
 - [Introduction](#introduction)
@@ -47,5 +48,3 @@ Contributions are welcome! If you have any suggestions or find any bugs, please 
 
 ## License
 This project is licensed under the [MIT License](https://github.com/hesamdavarpanah/CRUD-RDF-data/blob/main/LICENSE).
-
-![This graph show how RDF file will create](Untitled-1.png "RDF builder graph")
